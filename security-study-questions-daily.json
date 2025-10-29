@@ -1,0 +1,261 @@
+{
+  "schema_version": 27,
+  "standard_lib_version": 85,
+  "action_runtime_version": 58,
+  "name": "Security+ study Questions Daily",
+  "description": "Grabs from PDF, gets 5 questions + answers, emails you, grades your reply with explanations, emails results, and schedules daily.",
+  "guid": "de7d575aa7cdb1d9cc28ad2992053ba8",
+  "slug": "security_study_questions_daily",
+  "agents": [
+    {
+      "type": "Agents::EmailAgent",
+      "name": "Send Email Quiz",
+      "disabled": false,
+      "description": null,
+      "guid": "27c324919c86e51a9962a40e9097f248",
+      "origin_story_identifier": "cloud:14c138b4d839971cb34a70852f98237d:15457858f3e48398146f1acb85607489",
+      "options": {
+        "recipients": [
+          "summer.boone@guidepointsecurity.com"
+        ],
+        "reply_to": "summer.boone@guidepointsecurity.com",
+        "sender_name": "Tines CompTIA Questions",
+        "subject": "Sec+ Question Quiz ",
+        "body": "Here are your 5 Security+ questions for today:\n\n<<ai_action.output>>",
+        "advanced_html": true
+      },
+      "reporting": {
+        "time_saved_value": 0,
+        "time_saved_unit": "minutes"
+      },
+      "monitoring": {
+        "monitor_all_events": false,
+        "monitor_failures": false,
+        "monitor_no_events_emitted": null
+      },
+      "template": {
+        "created_from_template_guid": null,
+        "created_from_template_version": null,
+        "template_tags": []
+      },
+      "width": null,
+      "schedule": null
+    },
+    {
+      "type": "Agents::EventTransformationAgent",
+      "name": "Event Transform Action",
+      "disabled": false,
+      "description": null,
+      "guid": "71ee1538d021516b031b31362f301364",
+      "origin_story_identifier": "cloud:14c138b4d839971cb34a70852f98237d:15457858f3e48398146f1acb85607489",
+      "options": {
+        "mode": "message_only",
+        "loop": false,
+        "payload": {
+          "message": "This is an automatically generated message from Tines"
+        }
+      },
+      "reporting": {
+        "time_saved_value": 0,
+        "time_saved_unit": "minutes"
+      },
+      "monitoring": {
+        "monitor_all_events": false,
+        "monitor_failures": false,
+        "monitor_no_events_emitted": null
+      },
+      "template": {
+        "created_from_template_guid": null,
+        "created_from_template_version": null,
+        "template_tags": []
+      },
+      "width": null,
+      "schedule": null
+    },
+    {
+      "type": "Agents::EmailAgent",
+      "name": "Send Email Action",
+      "disabled": false,
+      "description": null,
+      "guid": "f789112ce1fa1f9d9be55c10fb57329e",
+      "origin_story_identifier": "cloud:14c138b4d839971cb34a70852f98237d:15457858f3e48398146f1acb85607489",
+      "options": {
+        "recipients": "summer.boone@guidepointsecurity.com",
+        "reply_to": "summer.boone@guidepointsecurity.com",
+        "sender_name": "Summer Boone",
+        "subject": "Answers and Explanation ",
+        "body": "Answers and Explanation: ",
+        "advanced_html": true
+      },
+      "reporting": {
+        "time_saved_value": 0,
+        "time_saved_unit": "minutes"
+      },
+      "monitoring": {
+        "monitor_all_events": false,
+        "monitor_failures": false,
+        "monitor_no_events_emitted": null
+      },
+      "template": {
+        "created_from_template_guid": null,
+        "created_from_template_version": null,
+        "template_tags": []
+      },
+      "width": null,
+      "schedule": null
+    },
+    {
+      "type": "Agents::LLMAgent",
+      "name": "AI Action Question Generator",
+      "disabled": false,
+      "description": null,
+      "guid": "e9673f569bf2981bfc582fb657321faf",
+      "origin_story_identifier": "cloud:14c138b4d839971cb34a70852f98237d:15457858f3e48398146f1acb85607489",
+      "options": {
+        "prompt": "I'm studying for the CompTIA Security+ certification and want to receive 5 unique practice questions via email each day.\r\n\r\nUse the following link as a reference for question style and difficulty:\r\nhttps://www.comptia.org/en-us/certifications/security/practice-questions/\r\n\r\nYour task:\r\n- Generate 5 original Security+ practice questions.\r\n- Do not repeat questions from previous days.\r\n- Format the output as a clean, well-structured HTML message suitable for email.\r\n- Include the questions and multiple-choice answers (A–D).\r\n- Do not include any commentary, explanations, or extra text outside the HTML.\r\n\r\nOutput only the HTML content.\r",
+        "json_mode": true
+      },
+      "reporting": {
+        "time_saved_value": 0,
+        "time_saved_unit": "minutes"
+      },
+      "monitoring": {
+        "monitor_all_events": false,
+        "monitor_failures": false,
+        "monitor_no_events_emitted": null
+      },
+      "template": {
+        "created_from_template_guid": null,
+        "created_from_template_version": null,
+        "template_tags": []
+      },
+      "width": null,
+      "schedule": null
+    },
+    {
+      "type": "Agents::HTTPRequestAgent",
+      "name": "Get CompTia questions",
+      "disabled": false,
+      "description": null,
+      "guid": "935cc6260de8104d99c68cf87f19e650",
+      "origin_story_identifier": "cloud:14c138b4d839971cb34a70852f98237d:15457858f3e48398146f1acb85607489",
+      "options": {
+        "url": "https://www.comptia.org/en-us/certifications/security/practice-questions/\r\n",
+        "content_type": "application_json",
+        "method": "get",
+        "payload": {
+          "key": "value",
+          "array_example": [
+            "foo",
+            "bar"
+          ],
+          "object_example": {
+            "key": "value"
+          }
+        }
+      },
+      "reporting": {
+        "time_saved_value": 0,
+        "time_saved_unit": "minutes"
+      },
+      "monitoring": {
+        "monitor_all_events": false,
+        "monitor_failures": false,
+        "monitor_no_events_emitted": null
+      },
+      "template": {
+        "created_from_template_guid": null,
+        "created_from_template_version": null,
+        "template_tags": []
+      },
+      "width": null,
+      "schedule": [
+        {
+          "cron": "0 9 * * *",
+          "timezone": "America/New_York"
+        }
+      ]
+    },
+    {
+      "type": "Agents::EventTransformationAgent",
+      "name": "Questions",
+      "disabled": false,
+      "description": null,
+      "guid": "b71bc70efa3888b4b8123a062ece8ed5",
+      "origin_story_identifier": "cloud:14c138b4d839971cb34a70852f98237d:15457858f3e48398146f1acb85607489",
+      "options": {
+        "mode": "extract",
+        "matchers": [
+          {
+            "path": "=get_comptia_questions",
+            "regexp": "<<get_comptia_questions>>",
+            "to": "<<question_html>>"
+          }
+        ]
+      },
+      "reporting": {
+        "time_saved_value": 0,
+        "time_saved_unit": "minutes"
+      },
+      "monitoring": {
+        "monitor_all_events": false,
+        "monitor_failures": false,
+        "monitor_no_events_emitted": null
+      },
+      "template": {
+        "created_from_template_guid": null,
+        "created_from_template_version": null,
+        "template_tags": []
+      },
+      "width": null,
+      "schedule": null
+    }
+  ],
+  "diagram_notes": [],
+  "links": [
+    {
+      "source": 1,
+      "receiver": 2
+    },
+    {
+      "source": 3,
+      "receiver": 0
+    },
+    {
+      "source": 4,
+      "receiver": 3
+    }
+  ],
+  "diagram_layout": "{\"27c324919c86e51a9962a40e9097f248\":[360,45],\"71ee1538d021516b031b31362f301364\":[555,135],\"935cc6260de8104d99c68cf87f19e650\":[375,-135],\"b71bc70efa3888b4b8123a062ece8ed5\":[15,0],\"e9673f569bf2981bfc582fb657321faf\":[570,-45],\"f789112ce1fa1f9d9be55c10fb57329e\":[375,225]}",
+  "story_library_metadata": {},
+  "monitor_failures": false,
+  "synchronous_webhooks_enabled": false,
+  "integrations": [],
+  "parent_only_send_to_story": false,
+  "send_to_story_timeout_enabled": false,
+  "send_to_story_timeout_duration_seconds": null,
+  "keep_events_for": 86400,
+  "reporting_status": true,
+  "send_to_story_enabled": false,
+  "entry_agent_guid": null,
+  "exit_agent_guids": [],
+  "api_entry_action_guids": [],
+  "api_exit_action_guids": [],
+  "send_to_story_access": null,
+  "send_to_story_access_source": 0,
+  "send_to_story_skill_use_requires_confirmation": true,
+  "pages": [],
+  "tags": [],
+  "time_saved_unit": "minutes",
+  "time_saved_value": 0,
+  "origin_story_identifier": "cloud:14c138b4d839971cb34a70852f98237d:15457858f3e48398146f1acb85607489",
+  "recipients": [
+    "summer.boone@guidepointsecurity.com"
+  ],
+  "integration_product": null,
+  "integration_vendor": null,
+  "llm_product_instructions": "",
+  "send_to_stories": [],
+  "exported_at": "2025-10-29T17:26:17Z",
+  "icon": ":mag:"
+}
